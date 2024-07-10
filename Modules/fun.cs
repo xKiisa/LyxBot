@@ -20,18 +20,18 @@ namespace LyxBot.Modules
         public class Rate
         {
             [Command("rate")]
-            public static async Task RateAsync(CommandContext ctx)
+            public static async Task RateAsync(CommandContext ctx, DiscordUser? member = null)
             {
+                member ??= ctx.User;
                 Random random = new();
                 int rateResult = random.Next(1, 10);
                 if (rateResult != 8)
                 {
-
-                    await ctx.RespondAsync($"{ctx.User.Mention} is a {rateResult} out of 10!");
+                    await ctx.RespondAsync($"{member.Mention} is a {rateResult} out of 10!");
                 }
                 else
                 {
-                    await ctx.RespondAsync($"{ctx.User.Mention} is an {rateResult} out of 10!");
+                    await ctx.RespondAsync($"{member.Mention} is an {rateResult} out of 10!");
                 }
             }
         }

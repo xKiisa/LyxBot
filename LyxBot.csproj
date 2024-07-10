@@ -12,7 +12,6 @@
     <PackageReference Include="dotenv.net" Version="3.2.0" />
     <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02303" />
     <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02303" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.9" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02303" />
   </ItemGroup>
 
