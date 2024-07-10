@@ -45,7 +45,7 @@ namespace LyxBot
 
 
             // Set Bot Status
-            DiscordActivity status = new("\"$\" | Lynxbot" , DiscordActivityType.ListeningTo);
+            DiscordActivity status = new("\"$\" | Lyxbot" , DiscordActivityType.ListeningTo);
             // Connect the Discord client
             await client.ConnectAsync(status, DiscordUserStatus.Online);
             await Task.Delay(-1);
