@@ -43,11 +43,12 @@ namespace LyxBot.Modules
                 DiscordEmbedBuilder embed = new();
                 embed.WithTitle("Bot Commands");
                 embed.AddField("$help", "Displays this commands message");
-                embed.AddField("$rate", "Rates someone");
+                embed.AddField("$rate", "Rate someone");
                 embed.AddField("$coinflip", "Flips a coin!");
                 embed.AddField("$rps", "Enter rock, paper or scissors");
                 embed.AddField("$dice", "Enter amount of dice and sides");  // e.g $dice 1 6
-
+                embed.AddField("$avatar", "Display a user's avatar");
+                embed.AddField("$userinfo", "Retrieve a user's profile information");
                 await ctx.RespondAsync(embed: embed);
             }
         }
