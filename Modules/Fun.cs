@@ -20,18 +20,18 @@ namespace LyxBot.Modules
         public class Rate
         {
             [Command("rate")]
-            public static async Task RateAsync(CommandContext ctx, DiscordUser? member = null)
+            public static async Task RateAsync(CommandContext ctx, DiscordUser? user = null)
             {
-                member ??= ctx.User;
+                user ??= ctx.User;
                 Random random = new();
                 int rateResult = random.Next(1, 10);
                 if (rateResult != 8)
                 {
-                    await ctx.RespondAsync($"{member.Mention} is a {rateResult} out of 10!");
+                    await ctx.RespondAsync($"{user.Mention} is a {rateResult} out of 10!");
                 }
                 else
                 {
-                    await ctx.RespondAsync($"{member.Mention} is an {rateResult} out of 10!");
+                    await ctx.RespondAsync($"{user.Mention} is an {rateResult} out of 10!");
                 }
             }
         }
@@ -49,6 +49,7 @@ namespace LyxBot.Modules
                 embed.AddField("$dice", "Enter amount of dice and sides");  // e.g $dice 1 6
                 embed.AddField("$avatar", "Display a user's avatar");
                 embed.AddField("$userinfo", "Retrieve a user's profile information");
+                embed.AddField("$guildinfo", "Shows information about the guild");
                 await ctx.RespondAsync(embed: embed);
             }
         }

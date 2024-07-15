@@ -21,10 +21,17 @@ namespace LyxBot
                 Console.WriteLine("The DISCORD_TOKEN is not set, please add it in the .env file");
                 return;
             }
-            Console.WriteLine($"Bot token in use: {token}\n");
-
             // Create the Discord client
-            DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(token, DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents);
+            DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(token, DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.Guilds);
+            builder.ConfigureEventHandlers
+            (
+                b => b.HandleGuildAvailable(async (s, e) =>
+                {
+                    var guildCount = s.Guilds.Count;
+                    await Console.Out.WriteLineAsync($"\nBot token in use: {token}");
+                    await Console.Out.WriteLineAsync($"Guilds joined: {guildCount}\n");
+                })
+            );
             DiscordClient client = builder.Build();
 
             // Set up Commands
