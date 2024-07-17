@@ -50,6 +50,7 @@ namespace LyxBot.Modules
                 embed.AddField("$avatar", "Display a user's avatar");
                 embed.AddField("$userinfo", "Retrieve a user's profile information");
                 embed.AddField("$guildinfo", "Shows information about the guild");
+                embed.AddField("$kick", "Kicks a user");
                 await ctx.RespondAsync(embed: embed);
             }
         }
