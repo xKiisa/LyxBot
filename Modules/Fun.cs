@@ -1,4 +1,5 @@
-﻿using DSharpPlus.Commands;
+﻿using System.ComponentModel;
+using DSharpPlus.Commands;
 using DSharpPlus.Entities;
 
 namespace LyxBot.Modules
@@ -8,6 +9,7 @@ namespace LyxBot.Modules
         public class CoinFlip
         {
             [Command("coinflip")]
+            [Description("Flips a coin!")]
             public static async Task CoinFlipAsync(CommandContext ctx)
             {
                 Random random = new();
@@ -20,6 +22,7 @@ namespace LyxBot.Modules
         public class Rate
         {
             [Command("rate")]
+            [Description("Rate someone")]
             public static async Task RateAsync(CommandContext ctx, DiscordUser? user = null)
             {
                 user ??= ctx.User;
@@ -35,28 +38,10 @@ namespace LyxBot.Modules
                 }
             }
         }
-        public class Help
-        {
-            [Command("help")]
-            public static async Task HelpAsync(CommandContext ctx)
-            {
-                DiscordEmbedBuilder embed = new();
-                embed.WithTitle("Bot Commands");
-                embed.AddField("$help", "Displays this commands message");
-                embed.AddField("$rate", "Rate someone");
-                embed.AddField("$coinflip", "Flips a coin!");
-                embed.AddField("$rps", "Enter rock, paper or scissors");
-                embed.AddField("$dice", "Enter amount of dice and sides");  // e.g $dice 1 6
-                embed.AddField("$avatar", "Display a user's avatar");
-                embed.AddField("$userinfo", "Retrieve a user's profile information");
-                embed.AddField("$guildinfo", "Shows information about the guild");
-                embed.AddField("$kick", "Kicks a user");
-                await ctx.RespondAsync(embed: embed);
-            }
-        }
         public class Dice
         {
             [Command("dice")]
+            [Description("Enter amount of dice and sides")]
             public static async Task DiceAsync(CommandContext ctx, int numberOfDice, int numberOfSides)
             {
                 if (numberOfDice <= 0 || numberOfSides <= 0)

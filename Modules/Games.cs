@@ -1,4 +1,5 @@
-﻿using DSharpPlus.Commands;
+﻿using System.ComponentModel;
+using DSharpPlus.Commands;
 
 namespace LyxBot.Modules
 {
@@ -7,6 +8,7 @@ namespace LyxBot.Modules
         public class RPS
         {
             [Command("rps")]
+            [Description("Enter rock, paper or scissors")]
             public static async Task RpsAsync(CommandContext ctx, string? memberChoice = null)
             {
                 Random random = new();

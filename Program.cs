@@ -4,6 +4,8 @@ using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.TextCommands;
 using DSharpPlus.Commands.Processors.TextCommands.Parsing;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 
 namespace LyxBot
 {
@@ -15,10 +17,16 @@ namespace LyxBot
             DotEnv.Load();
             // Get the token from environment variables
             var token = Environment.GetEnvironmentVariable("DISCORD_TOKEN");
-            // Check if token is set in .env file
+            var prefix = Environment.GetEnvironmentVariable("COMMAND_PREFIX");
+            // Check if token and command prefix is set in .env file
             if (string.IsNullOrEmpty(token))
             {
                 Console.WriteLine("The DISCORD_TOKEN is not set, please add it in the .env file");
+                return;
+            }
+            if (string.IsNullOrEmpty(prefix))
+            {
+                Console.WriteLine("The COMMAND_PREFIX is not set, please add it in the .env file");
                 return;
             }
             // Create the Discord client
@@ -37,22 +45,22 @@ namespace LyxBot
             // Set up Commands
             CommandsExtension commandsExtension = client.UseCommands(new CommandsConfiguration()
             {
-                RegisterDefaultCommandProcessors = true
+                RegisterDefaultCommandProcessors = true,
             });
-
             // Register commands
             commandsExtension.AddCommands(typeof(Program).Assembly);
+
             TextCommandProcessor textCommandProcessor = new(new()
             {
-                PrefixResolver = new DefaultPrefixResolver(true, "$").ResolvePrefixAsync
+                PrefixResolver = new DefaultPrefixResolver(true, prefix).ResolvePrefixAsync
+            });
+            client.UseInteractivity(new InteractivityConfiguration
+            {
+                Timeout = TimeSpan.FromMinutes(1)
             });
 
-            await commandsExtension.AddProcessorsAsync(textCommandProcessor);
-
-
-
             // Set Bot Status
-            DiscordActivity status = new("\"$\" | Lyxbot" , DiscordActivityType.ListeningTo);
+            DiscordActivity status = new($"\"{prefix}\" | Lyxbot" , DiscordActivityType.ListeningTo);
             // Connect the Discord client
             await client.ConnectAsync(status, DiscordUserStatus.Online);
             await Task.Delay(-1);
