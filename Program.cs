@@ -54,6 +54,8 @@ namespace LyxBot
             {
                 PrefixResolver = new DefaultPrefixResolver(true, prefix).ResolvePrefixAsync
             });
+            await commandsExtension.AddProcessorsAsync(textCommandProcessor);
+
             client.UseInteractivity(new InteractivityConfiguration
             {
                 Timeout = TimeSpan.FromMinutes(1)
