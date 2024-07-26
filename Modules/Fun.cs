@@ -58,7 +58,7 @@ namespace LyxBot.Modules
                     dice.Add(roll.ToString());
                 }
                 var diceResult = string.Join(", ", dice);
-                await ctx.RespondAsync($"{ctx.User.Mention} rolled: {diceResult}!");
+                await ctx.RespondAsync($"{ctx.User.Mention} rolled: **{diceResult}**!");
             }
         }
     }
