@@ -119,7 +119,8 @@ namespace LyxBot.Modules
                          new DiscordEmbedBuilder()
                         .WithTitle("Bot Commands - Page 3")
                         .AddField($"{prefix}timeout", "Timeout a user for a specified duration")
-                        .AddField($"{prefix}purge", "Removes a specified amount of messages"),
+                        .AddField($"{prefix}purge", "Removes a specified amount of messages")
+                        .AddField($"{prefix}coins", "Shows the balance of all users in the server"),
                 };
                 // Turns the embeds list into pages
                 var pages = new List<Page>();

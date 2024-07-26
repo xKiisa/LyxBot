@@ -30,12 +30,13 @@ namespace LyxBot
                 return;
             }
             // Create the Discord client
-            DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(token, DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.Guilds);
+            DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(token, DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.Guilds | DiscordIntents.GuildPresences);
             builder.ConfigureEventHandlers
             (
                 b => b.HandleGuildAvailable(async (s, e) =>
                 {
                     var guildCount = s.Guilds.Count;
+                    e.Guild.GetAllMembersAsync();
                     await Console.Out.WriteLineAsync($"\nBot token in use: {token}");
                     await Console.Out.WriteLineAsync($"Guilds joined: {guildCount}\n");
                 })
