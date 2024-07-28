@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using dotenv.net;
 using DSharpPlus.Commands;
+using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using LyxBot.DBConnection;
 
 namespace LyxBot.Modules
 {
@@ -87,6 +89,75 @@ namespace LyxBot.Modules
                 }
             }
         }
+        public class Addcoins
+        {
+            [Command("addcoins")]
+            [Description("Adds Lyx Coins to select user")]
+            [RequireApplicationOwner] // Only for bot owner
+            public static async Task AddcoinsAsync(CommandContext ctx, DiscordMember? member = null, int amount = 0)
+            {
+                if (member is null)
+                {
+                    await ctx.RespondAsync("Please tag a user to add coins to!");
+                    return;
+                }
+                if (amount <= 0)
+                {
+                    await ctx.RespondAsync("Please enter a positive amount of coins to add to the user!");
+                    return;
+                }
+                // Add entered amount to members balance
+                await DatabaseConnection.UpdateUserBalance(ctx.User.Id.ToString(), amount);
+                if (amount != 1)
+                {
+                    await ctx.RespondAsync($"Added {amount} Lyx coins to {member.Mention}");
+                }
+                else
+                {
+                    await ctx.RespondAsync($"Added {amount} Lyx coin to {member.Mention}");
+                }
+            }
+        }
+        public class Give
+        {
+            [Command("give")]
+            [Description("Give select amount of own coins to another user")]
+            public static async Task GiveAsync(CommandContext ctx, DiscordMember? member = null, int amount = 0)
+            {
+                if (member is null || member == ctx.User)
+                {
+                    await ctx.RespondAsync("Please tag another user to give coins to!");
+                    return;
+                }
+                if (amount <= 0)
+                {
+                    await ctx.RespondAsync("Please enter a positive amount of coins to add to the user!");
+                    return;
+                }
+                try
+                {
+                    // Reduct select amount of coins from giver
+                    await DatabaseConnection.UpdateUserBalance(ctx.User.Id.ToString(), -amount);
+
+                    // Add select amount of coins to recipient
+                    await DatabaseConnection.UpdateUserBalance(member.Id.ToString(), amount);
+
+
+                    if (amount != 1)
+                    {
+                        await ctx.RespondAsync($"{ctx.User.Mention} Gave {amount} Lyx coins to {member.Mention}");
+                    }
+                    else
+                    {
+                        await ctx.RespondAsync($"{ctx.User.Mention} Gave {amount} Lyx coin to {member.Mention}");
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    await ctx.RespondAsync(ex.Message);
+                }
+            }
+        }
         public class Help
         {
             [Command("help")]
@@ -120,7 +191,9 @@ namespace LyxBot.Modules
                         .WithTitle("Bot Commands - Page 3")
                         .AddField($"{prefix}timeout", "Timeout a user for a specified duration")
                         .AddField($"{prefix}purge", "Removes a specified amount of messages")
-                        .AddField($"{prefix}coins", "Shows the balance of all users in the server"),
+                        .AddField($"{prefix}coins", "Shows the balance of all users in the server")
+                        .AddField($"{prefix}give", "Give select amount of own coins to another user")
+                        .AddField($"{prefix}addcoins", "Adds Lyx Coins to select user"),
                 };
                 // Turns the embeds list into pages
                 var pages = new List<Page>();

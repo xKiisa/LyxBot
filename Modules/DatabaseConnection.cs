@@ -32,6 +32,11 @@ namespace LyxBot.DBConnection
                 int currentBalance = Convert.ToInt32(result);
                 int newBalance = currentBalance + amount;
 
+                if (newBalance < 0)
+                {
+                    throw new InvalidOperationException("You don't have enough Lyx coins!");
+                }
+
                 string updateQuery = "UPDATE UserBalances SET Balance = @Balance WHERE UserId = @UserId";
                 using SqliteCommand updateCommand = new(updateQuery, connection);
                 updateCommand.Parameters.AddWithValue("@Balance", newBalance);
