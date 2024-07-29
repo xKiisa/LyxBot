@@ -121,22 +121,22 @@ namespace LyxBot.Modules
         public class Give
         {
             [Command("give")]
-            [Description("Give select amount of own coins to another user")]
+            [Description("Give select amount of own Lyx coins to another user")]
             public static async Task GiveAsync(CommandContext ctx, DiscordMember? member = null, int amount = 0)
             {
                 if (member is null || member == ctx.User)
                 {
-                    await ctx.RespondAsync("Please tag another user to give coins to!");
+                    await ctx.RespondAsync("Please tag another user to give Lyx coins to!");
                     return;
                 }
                 if (amount <= 0)
                 {
-                    await ctx.RespondAsync("Please enter a positive amount of coins to add to the user!");
+                    await ctx.RespondAsync("Please enter a positive amount of Lyx coins to add to the user!");
                     return;
                 }
                 try
                 {
-                    // Reduct select amount of coins from giver
+                    // Reduce select amount of coins from giver
                     await DatabaseConnection.UpdateUserBalance(ctx.User.Id.ToString(), -amount);
 
                     // Add select amount of coins to recipient
@@ -187,13 +187,17 @@ namespace LyxBot.Modules
                         .AddField($"{prefix}kick", "Kicks a user")
                         .AddField($"{prefix}ban", "Bans a user"),
 
-                         new DiscordEmbedBuilder()
+                    new DiscordEmbedBuilder()
                         .WithTitle("Bot Commands - Page 3")
                         .AddField($"{prefix}timeout", "Timeout a user for a specified duration")
                         .AddField($"{prefix}purge", "Removes a specified amount of messages")
                         .AddField($"{prefix}coins", "Shows the balance of all users in the server")
                         .AddField($"{prefix}give", "Give select amount of own coins to another user")
                         .AddField($"{prefix}addcoins", "Adds Lyx Coins to select user"),
+
+                    new DiscordEmbedBuilder()
+                        .WithTitle("Bot Commands - Page 4")
+                        .AddField($"{prefix}flip", "Gambles an amount of Lyx coins in a coinflip"),
                 };
                 // Turns the embeds list into pages
                 var pages = new List<Page>();

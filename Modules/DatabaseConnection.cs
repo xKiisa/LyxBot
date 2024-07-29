@@ -32,7 +32,7 @@ namespace LyxBot.DBConnection
                 int currentBalance = Convert.ToInt32(result);
                 int newBalance = currentBalance + amount;
 
-                if (newBalance < 0)
+                if (newBalance < 0 || currentBalance < amount)
                 {
                     throw new InvalidOperationException("You don't have enough Lyx coins!");
                 }
