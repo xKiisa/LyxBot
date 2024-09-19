@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using DSharpPlus.Commands;
-using LyxBot.DBConnection;
 
-namespace LyxBot.Gamble
+
+namespace LyxBot.Modules
 {
     public class Flip
     {

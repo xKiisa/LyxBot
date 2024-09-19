@@ -5,7 +5,6 @@ using DSharpPlus.Commands.ContextChecks;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
-using LyxBot.DBConnection;
 
 namespace LyxBot.Modules
 {
@@ -40,7 +39,7 @@ namespace LyxBot.Modules
                 }
 
                 // Get member info
-                var userID      = member.Id;
+                var userId      = member.Id;
                 var userName    = member.Username;
                 var userCreated = member.CreationTimestamp;
                 var joinedAt    = member.JoinedAt;
@@ -49,10 +48,10 @@ namespace LyxBot.Modules
                 DiscordEmbedBuilder embed = new();
                 {
                     embed.WithThumbnail(member.AvatarUrl);
-                    embed.AddField("User Name", userName.ToString());
-                    embed.AddField("User ID", userID.ToString());
-                    embed.AddField("User Created", userCreated.ToString() + " UTC");
-                    embed.AddField("Joined Guild At", joinedAt.ToString() + " UTC");
+                    embed.AddField("User Name", userName);
+                    embed.AddField("User ID", userId.ToString());
+                    embed.AddField("User Created", userCreated + " UTC");
+                    embed.AddField("Joined Guild At", joinedAt + " UTC");
                     await ctx.RespondAsync(embed: embed);
                 }
             }
@@ -70,7 +69,7 @@ namespace LyxBot.Modules
                 }
 
                 // Collect Guild info
-                var guildID          = guild.Id;
+                var guildId          = guild.Id;
                 var guildName        = guild.Name;
                 var guildCreated     = guild.CreationTimestamp;
                 var guildMemberCount = guild.MemberCount;
@@ -79,11 +78,11 @@ namespace LyxBot.Modules
                 DiscordEmbedBuilder embed = new();
                 {
                     embed.WithThumbnail(guild.IconUrl);
-                    embed.AddField("Guild Name", guildName.ToString());
-                    embed.AddField("Guild ID", guildID.ToString());
-                    embed.AddField("Guild Creation", guildCreated.ToString() + " UTC");
+                    embed.AddField("Guild Name", guildName);
+                    embed.AddField("Guild ID", guildId.ToString());
+                    embed.AddField("Guild Creation", guildCreated + " UTC");
                     embed.AddField("Guild Member Count", guildMemberCount.ToString());
-                    embed.AddField("Guild Owner Name", guildOwner.DisplayName.ToString());
+                    embed.AddField("Guild Owner Name", guildOwner.DisplayName);
                     embed.AddField("Guild Owner ID", guildOwner.Id.ToString());
                     await ctx.RespondAsync(embed: embed);
                 }

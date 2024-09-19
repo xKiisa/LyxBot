@@ -55,8 +55,6 @@ namespace LyxBot.Modules
                     try
                     {
                         var messages = ctx.Channel.GetMessagesAsync(amount + 1);
-                        var now = DateTimeOffset.UtcNow;
-                        var messagesToDelete = new List<DiscordMessage>();
 
                         await ctx.Channel.DeleteMessagesAsync(messages);
                         await ctx.RespondAsync($"Removed {amount} messages!");

@@ -37,23 +37,18 @@ namespace LyxBot.Modules
                 {
                     var members = guild.Members;
 
-                    if (members.TryGetValue(Convert.ToUInt64(userBalance.Key), out var member))
-                    {
-                        response.Add($"**{member.DisplayName}:**\n {userBalance.Value} Lyx Coins");
-                    }
-                    else
-                    {
-                        response.Add($"UserId **{userBalance.Key}:**\n {userBalance.Value} Lyx Coins");
-                    }
+                    response.Add(members.TryGetValue(Convert.ToUInt64(userBalance.Key), out var member)
+                        ? $"**{member.DisplayName}:**\n {userBalance.Value} Lyx Coins"
+                        : $"UserId **{userBalance.Key}:**\n {userBalance.Value} Lyx Coins");
                 }
 
-                const int PageSize = 10; // Page entries
+                const int pageSize = 10; // Page entries
                 var pages = new List<Page>();
-                for (int i = 0; i < response.Count; i += PageSize)
+                for (int i = 0; i < response.Count; i += pageSize)
                 {
                     var embed = new DiscordEmbedBuilder()
                         .WithTitle("User Balances")
-                        .WithDescription(string.Join("\n", response.Skip(i).Take(PageSize)));
+                        .WithDescription(string.Join("\n", response.Skip(i).Take(pageSize)));
                     var page = new Page { Embed = embed };
                     pages.Add(page);
                 }
@@ -65,12 +60,12 @@ namespace LyxBot.Modules
             {
                 var userBalances = new Dictionary<string, int>();
 
-                using (SqliteConnection connection = new(ConnectionString))
+                await using SqliteConnection connection = new(ConnectionString);
                 {
                     connection.Open();
                     string selectQuery = "SELECT UserId, Balance FROM UserBalances";
-                    using SqliteCommand selectCommand = new(selectQuery, connection);
-                    using var reader = await selectCommand.ExecuteReaderAsync();
+                    await using SqliteCommand selectCommand = new(selectQuery, connection);
+                    await using var reader = await selectCommand.ExecuteReaderAsync();
                     while (reader.Read())
                     {
                         string userId = reader.GetString(0);

@@ -1,12 +1,12 @@
 ﻿using DSharpPlus.Commands;
-using LyxBot.DBConnection;
+
 using System.ComponentModel;
 
 namespace LyxBot.Modules
 {
     public class Games
     {
-        public class RPS
+        public class Rps
         {
 
             [Command("rps")]
